@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Victoria ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Sacramento&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blush:      #f4d4d4;
+      --rose:       #d4788a;
+      --deep-rose:  #b55068;
+      --petal:      #fdf0f0;
+      --lavender:   #e8e0f0;
+      --beige:      #f9f3ee;
+      --warm-grey:  #8a7f7f;
+      --ink:        #3b2c2c;
+      --gold:       #c9a96e;
+      --paper:      #fffdf9;
+      --paper-warm: #fef8f0;
+      --paper-line: rgba(212,120,138,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--petal);
+      color: var(--ink);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Faint grain over everything */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9000;
+    }
+
+    /* ── Pages ── */
+    .page {
+      min-height: 100vh; width: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 2rem;
+    }
+    .page::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 30%, rgba(244,212,212,0.55) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, rgba(232,224,240,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(249,243,238,0.3) 0%, transparent 80%);
+      pointer-events: none; z-index: 0;
+    }
+    .page > * { position: relative; z-index: 1; }
+
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(65px); opacity: 0.32;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Petal canvas ── */
+    #petal-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+
+    /* ════════════════════════════════════════════
+       PAGE 1 — LANDING
+       Animations: slower, more dreamlike
+    ════════════════════════════════════════════ */
+    #page1 { background: var(--petal); }
+    #page1 .blob-1 { width:420px;height:420px;background:var(--blush);top:-80px;left:-100px; }
+    #page1 .blob-2 { width:300px;height:300px;background:var(--lavender);bottom:-60px;right:-80px; }
+
+    .ornament {
+      width: 80px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      margin: 0 auto 2rem;
+      opacity: 0;
+      /* slower: was 1s → 1.8s, delay 0.4 → 0.8s */
+      animation: fadeUp 1.8s ease 0.8s forwards;
+    }
+    #page1 h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 9vw, 6rem);
+      font-weight: 400; letter-spacing: -0.01em;
+      color: var(--ink); text-align: center; line-height: 1.1;
+      opacity: 0;
+      /* slower: was 1s 0.6s → 2s 1.4s */
+      animation: fadeUp 2s ease 1.4s forwards;
+    }
+    #page1 .subtext {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      font-weight: 300; color: var(--warm-grey);
+      margin-top: 1.2rem; text-align: center;
+      opacity: 0;
+      /* slower: was 1s 0.9s → 2s 2.2s */
+      animation: fadeUp 2s ease 2.2s forwards;
+    }
+    .arrow-btn {
+      margin-top: 3.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.5rem;
+      cursor: pointer; background: none; border: none;
+      opacity: 0;
+      /* slower: was 1s 1.3s → 2s 3.2s */
+      animation: fadeUp 2s ease 3.2s forwards;
+    }
+    .arrow-btn span {
+      font-size: 0.78rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rose); font-weight: 500;
+    }
+    .arrow-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1.5px solid var(--rose);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.4s, transform 0.4s;
+      /* slower bounce: was 2s → 3s, delay 2.5s → 5s */
+      animation: bounceY 3s ease-in-out 5s infinite;
+    }
+    .arrow-btn:hover .arrow-circle { background: var(--rose); transform: scale(1.08); }
+    .arrow-btn:hover .arrow-circle svg path { stroke: white; }
+
+    /* ════════════════════════════════════════════
+       PAGE 2 — THE QUESTION
+    ════════════════════════════════════════════ */
+    #page2 { background: var(--beige); display: none; }
+    #page2 .blob-1 { width:500px;height:500px;background:var(--blush);top:-120px;right:-120px; }
+    #page2 .blob-2 { width:280px;height:280px;background:var(--lavender);bottom:-60px;left:-60px; }
+
+    .question-wrap { text-align: center; }
+    .question-wrap .label {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 1.5rem; opacity: 0;
+    }
+    .question-wrap h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 8vw, 5.5rem);
+      font-weight: 400; color: var(--ink);
+      line-height: 1.15; display: inline; opacity: 0;
+    }
+    .again {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: #cbb8b8; margin-left: 0.4rem;
+      vertical-align: middle; opacity: 0;
+    }
+    .buttons {
+      margin-top: 3rem;
+      display: flex; align-items: center;
+      justify-content: center; gap: 2rem;
+      flex-wrap: wrap; opacity: 0;
+    }
+    .btn-yes {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.08em; padding: 1rem 3rem;
+      background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+      color: white; border: none; border-radius: 100px;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(181,80,104,0.35);
+      transition: transform 0.35s, box-shadow 0.35s;
+    }
+    .btn-yes:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 36px rgba(181,80,104,0.45); }
+    .btn-yes:active { transform: scale(0.97); }
+    .btn-no {
+      font-size: 0.75rem; font-weight: 300;
+      color: #ccc; background: none;
+      border: 1px solid #ddd; padding: 0.55rem 1.4rem;
+      border-radius: 100px; cursor: pointer; position: relative;
+    }
+
+    /* ════════════════════════════════════════════
+       PAGE 3 — CELEBRATION + VOWS
+    ════════════════════════════════════════════ */
+    #page3 { background: var(--petal); display: none; flex-direction: column; }
+    #page3 .blob-1 { width:600px;height:600px;background:var(--blush);top:-150px;left:-150px; }
+    #page3 .blob-2 { width:350px;height:350px;background:var(--lavender);bottom:-80px;right:-80px; }
+
+    .yay {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 11vw, 7rem);
+      font-weight: 500; color: var(--deep-rose); text-align: center;
+      opacity: 0; transform: scale(0.7);
+      /* slower: was 0.8s → 1.4s */
+      transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .yay.show { opacity: 1; transform: scale(1); }
+    /* slower hide: was 0.6s → 1.2s */
+    .yay.hide { opacity: 0; transform: scale(1.03); transition: opacity 1.2s ease; }
+
+    /* Vows wrapper */
+    .vows-wrap {
+      max-width: 660px; width: 100%;
+      opacity: 0; transform: translateY(28px);
+      /* slower: was 1.1s → 1.8s */
+      transition: opacity 1.8s ease, transform 1.8s ease;
+    }
+    .vows-wrap.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Paper card ── */
+    .letter-card {
+      position: relative;
+      background:
+        repeating-linear-gradient(
+          -45deg, transparent, transparent 28px,
+          rgba(180,140,100,0.022) 28px, rgba(180,140,100,0.022) 29px
+        ),
+        radial-gradient(ellipse 110% 110% at 50% 0%, var(--paper) 60%, var(--paper-warm) 100%);
+      border-radius: 3px;
+      padding: clamp(2.2rem, 6vw, 3.8rem) clamp(2rem, 6vw, 4rem)
+               clamp(2.2rem, 6vw, 3.8rem) clamp(3.5rem, 9vw, 5.5rem);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.9),
+        0 6px 24px rgba(100,60,40,0.10),
+        0 20px 60px rgba(100,60,40,0.08),
+        4px 4px 0 -1px rgba(200,160,120,0.15),
+        6px 6px 12px rgba(100,60,40,0.07);
+      border: 1px solid rgba(200,170,130,0.25);
+      border-top-color: rgba(255,255,255,0.8);
+    }
+    .letter-card::before {
+      content: ''; position: absolute; top: 0; bottom: 0;
+      left: clamp(2.8rem, 7.5vw, 4.5rem); width: 1px;
+      background: linear-gradient(to bottom,
+        transparent 0%, var(--paper-line) 8%, var(--paper-line) 92%, transparent 100%);
+    }
+    .wax-seal {
+      position: absolute; top: -18px; right: 2.2rem;
+      width: 38px; height: 38px;
+      background: radial-gradient(circle at 40% 35%, #c96080, var(--deep-rose) 60%, #8a3048);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.9); font-size: 1rem;
+      box-shadow: 0 2px 0 rgba(255,255,255,0.2) inset,
+                  0 4px 14px rgba(140,40,60,0.45), 0 1px 3px rgba(0,0,0,0.2);
+      border: 1.5px solid rgba(200,80,100,0.6); z-index: 2;
+    }
+    .fold-crease {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(200,170,130,0.08) 100%);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* ── "I choose you" ribbon ── */
+    .choose-ribbon {
+      display: block; text-align: center;
+      font-family: 'Sacramento', cursive;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--deep-rose); letter-spacing: 0.02em;
+      margin: 0.4rem 0 1.2rem; position: relative;
+      opacity: 0; transform: translateY(10px);
+      /* slower: was 0.7s → 1.2s */
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+    .choose-ribbon.visible { opacity: 1; transform: translateY(0); }
+    .choose-ribbon::before, .choose-ribbon::after {
+      content: ''; position: absolute; top: 50%; width: 18%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,120,138,0.35));
+      transform: translateY(-50%);
+    }
+    .choose-ribbon::before { left: 6%; }
+    .choose-ribbon::after  { right: 6%; background: linear-gradient(90deg, rgba(212,120,138,0.35), transparent); }
+
+    /* ── Vow lines ── */
+    .vow-line {
+      display: block; opacity: 0; transform: translateY(12px);
+      /* slower: was 0.7s → 1.2s */
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(0.88rem, 2.1vw, 1.02rem);
+      font-weight: 300; line-height: 1.95; color: var(--ink);
+    }
+    .vow-line.visible { opacity: 1; transform: translateY(0); }
+
+    .vow-line.salutation {
+      font-family: 'Sacramento', cursive;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: var(--deep-rose); margin-bottom: 1.2rem; line-height: 1.3;
+    }
+    .vow-line.sign-off {
+      font-family: 'Sacramento', cursive;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      color: var(--rose); margin-top: 0.6rem; line-height: 1.4;
+    }
+    .vow-spacer { display: block; height: 0.85rem; }
+
+    /* ════════════════════════════════════════════
+       SCREENSHOT PROMPT — floats in at the very end
+    ════════════════════════════════════════════ */
+    .screenshot-prompt {
+      margin-top: 2.8rem;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.6rem;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 1.6s ease, transform 1.6s ease;
+    }
+    .screenshot-prompt.visible { opacity: 1; transform: translateY(0); }
+
+    .screenshot-prompt .cam-icon {
+      font-size: 1.5rem;
+      animation: gentlePulse 3s ease-in-out infinite;
+    }
+    .screenshot-prompt p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: var(--warm-grey); text-align: center;
+      letter-spacing: 0.03em;
+      max-width: 280px; line-height: 1.6;
+    }
+    .screenshot-prompt .divider-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--rose); opacity: 0.4;
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50%       { transform: scale(1.12); opacity: 1; }
+    }
+
+    /* ── Particles + Confetti ── */
+    #particles { position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden; }
+    .particle  { position:absolute;font-size:1.6rem;animation:floatUp linear forwards;opacity:0;user-select:none; }
+    #confetti-canvas { position:fixed;inset:0;pointer-events:none;z-index:998; }
+
+    /* ── Keyframes ── */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(22px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes bounceY {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(9px); }
+    }
+    @keyframes floatUp {
+      0%   { opacity:0; transform:translateY(0) scale(0.6) rotate(0deg); }
+      10%  { opacity:1; }
+      80%  { opacity:0.8; }
+      100% { opacity:0; transform:translateY(-110vh) scale(1.2) rotate(30deg); }
+    }
+    /* Slower page transition: was 0.9s → 1.6s */
+    .fade-in { animation: fadePageIn 1.6s ease forwards; }
+    @keyframes fadePageIn { from{opacity:0;} to{opacity:1;} }
+
+    @media (max-width:480px) {
+      .buttons { gap:1.2rem; }
+      .btn-yes { padding:.9rem 2.2rem; }
+      .letter-card { padding: 2rem 1.4rem 2rem 2.8rem; }
+      .letter-card::before { left: 2.2rem; }
+      .choose-ribbon::before, .choose-ribbon::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="particles"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ════════════════════════════════════════════════
+     PAGE 1 — LANDING
+════════════════════════════════════════════════ -->
+<section class="page" id="page1">
+  <canvas id="petal-canvas"></canvas>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="ornament"></div>
+  <h1>Hi Victoria,</h1>
+  <p class="subtext">I made something special for you…</p>
+
+  <button class="arrow-btn" onclick="goToPage(2)" aria-label="Open">
+    <span>Open</span>
+    <div class="arrow-circle">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="var(--rose)" d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+  </button>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     PAGE 2 — THE QUESTION
+════════════════════════════════════════════════ -->
+<section class="page" id="page2">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="question-wrap">
+    <p class="label" id="q-label">A question for you</p>
+    <div style="display:inline-block; margin-bottom:0.5rem;">
+      <h2 id="q-heading">Will you be my girlfriend?</h2>
+      <span class="again" id="q-again">(again)</span>
+    </div>
+    <div class="buttons" id="q-buttons">
+      <button class="btn-yes" onclick="handleYes()">Yes ❤️</button>
+      <button class="btn-no" id="btn-no"
+              onmouseover="runAway(this)" onclick="handleYes()">No</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     PAGE 3 — CELEBRATION + VOWS
+════════════════════════════════════════════════ -->
+<section class="page" id="page3">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="yay" id="yay-text">She said YES! 🎉</div>
+
+  <div class="vows-wrap" id="vows-wrap">
+    <div class="letter-card">
+      <div class="fold-crease"></div>
+      <div class="wax-seal">❤</div>
+
+      <span class="vow-line salutation" data-delay="0">Hi Moyinoluwa,</span>
+
+      <span class="vow-line" data-delay="1">
+        I'm so excited about this new phase of us.
+      </span>
+      <span class="vow-line" data-delay="2">
+        Even though I've known you for most of my adult life, I still find myself
+        discovering new reasons to love you every day.
+      </span>
+
+      <span class="vow-spacer"></span>
+
+      <span class="choose-ribbon vow-line" data-delay="3">I choose you.</span>
+
+      <span class="vow-spacer"></span>
+
+      <span class="vow-line" data-delay="4">
+        You are my peace, my joy, and my everything.
+      </span>
+      <span class="vow-line" data-delay="5">
+        I choose you today, tomorrow, and for every day in between.
+      </span>
+
+      <span class="vow-spacer"></span>
+
+      <span class="vow-line" data-delay="6">
+        I promise to stand by you through every season and every stage of life.
+      </span>
+      <span class="vow-line" data-delay="7">
+        To love you deeply, to care for you genuinely, and to always bring you peace.
+      </span>
+
+      <span class="vow-spacer"></span>
+
+      <span class="vow-line" data-delay="8">
+        You deserve the very best — because <em>you are</em> the very best.
+      </span>
+
+      <span class="vow-spacer"></span>
+
+      <span class="vow-line" data-delay="9">
+        I love you — now and always.
+      </span>
+
+      <span class="vow-spacer"></span>
+
+      <span class="vow-line sign-off" data-delay="10">
+        Cheers to becoming Mrs. Ekemode. ❤️
+      </span>
+    </div>
+
+    <!-- Screenshot prompt — appears after vows finish -->
+    <div class="screenshot-prompt" id="screenshot-prompt">
+      <div class="divider-dot"></div>
+      <span class="cam-icon">📸</span>
+      <p>Take a screenshot to keep this moment forever.</p>
+      <div class="divider-dot"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+
+/* ══════════════════════════════════════════
+   ROSE PETALS
+══════════════════════════════════════════ */
+function initPetals() {
+  const canvas = $('petal-canvas');
+  const ctx = canvas.getContext('2d');
+  const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+  resize();
+  window.addEventListener('resize', resize);
+
+  const makePetal = (randomY) => ({
+    x:     Math.random() * canvas.width,
+    y:     randomY ? Math.random() * canvas.height : -20,
+    rx:    5 + Math.random() * 9, ry: 3 + Math.random() * 5,
+    rot:   Math.random() * Math.PI * 2,
+    spin:  (Math.random() - 0.5) * 0.018,   // slower spin
+    speed: 0.28 + Math.random() * 0.5,       // slower fall
+    drift: (Math.random() - 0.5) * 0.3,
+    alpha: 0.22 + Math.random() * 0.32,
+    hue:   Math.random() > 0.5 ? '#f4d4d4' : '#e8c0c8',
+  });
+
+  const petals = Array.from({ length: 20 }, () => makePetal(true));
+  (function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    petals.forEach(p => {
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.globalAlpha = p.alpha; ctx.fillStyle = p.hue;
+      ctx.beginPath(); ctx.ellipse(0, 0, p.rx, p.ry, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      p.y += p.speed; p.x += p.drift; p.rot += p.spin;
+      if (p.y > canvas.height + 20) Object.assign(p, makePetal(false));
+    });
+    requestAnimationFrame(draw);
+  })();
+}
+
+/* ══════════════════════════════════════════
+   PAGE NAVIGATION
+══════════════════════════════════════════ */
+function goToPage(num) {
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  const target = $(`page${num}`);
+  target.style.display = 'flex';
+  target.classList.remove('fade-in');
+  void target.offsetWidth;
+  target.classList.add('fade-in');
+  window.scrollTo(0, 0);
+  if (num === 2) animatePage2();
+  if (num === 3) animatePage3();
+}
+
+/* ── Page 2 — slower staggered reveals ── */
+function animatePage2() {
+  [
+    { el: $('q-label'),   d: 0.7  },   // was 0.4
+    { el: $('q-heading'), d: 1.3  },   // was 0.75
+    { el: $('q-again'),   d: 1.3  },
+    { el: $('q-buttons'), d: 2.0  },   // was 1.1
+  ].forEach(({ el, d }) => {
+    el.style.cssText = `opacity:0;transform:translateY(20px);
+      transition:opacity 1.4s ease ${d}s,transform 1.4s ease ${d}s`;
+    setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)'; }, 50);
+  });
+}
+
+/* ── NO runs away ── */
+function runAway(btn) {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const r  = btn.getBoundingClientRect();
+  const dx = Math.random() > 0.5 ? Math.random()*(vw-r.right-20) : -(Math.random()*(r.left-20));
+  const dy = Math.random() > 0.5 ? Math.random()*(vh-r.bottom-20) : -(Math.random()*(r.top-20));
+  btn.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+  btn.style.transform  = `translate(${dx}px,${dy}px)`;
+}
+
+function handleYes() { sendEmail(true); goToPage(3); }
+
+/* ══════════════════════════════════════════
+   PAGE 3 — CELEBRATION SEQUENCE
+   All timings stretched for a slower, more
+   emotional unfolding
+══════════════════════════════════════════ */
+function animatePage3() {
+  launchConfetti();
+  launchParticles();
+
+  const yay = $('yay-text');
+  // Show "She said YES!" after 400ms (was 200)
+  setTimeout(() => yay.classList.add('show'), 400);
+
+  // Hold for 4.5s before fading (was 3.2s)
+  setTimeout(() => {
+    yay.classList.add('hide');
+    // Wait for hide transition (1.2s) then show vows
+    setTimeout(() => {
+      yay.style.display = 'none';
+      $('vows-wrap').classList.add('show');
+      // Start line-by-line reveal after card fades in (800ms grace)
+      setTimeout(revealVowLines, 800);
+    }, 1300);
+  }, 4500);
+}
+
+/* ── Vow line reveal — slower stagger ── */
+function revealVowLines() {
+  const lines = document.querySelectorAll('.vow-line');
+  let lastDelay = 0;
+
+  lines.forEach(line => {
+    // each step is 900ms apart (was 620ms)
+    const delay = parseFloat(line.dataset.delay || 0) * 900 + 300;
+    lastDelay = Math.max(lastDelay, delay);
+    setTimeout(() => line.classList.add('visible'), delay);
+  });
+
+  // Screenshot prompt appears 1.8s after the final vow line
+  setTimeout(() => {
+    $('screenshot-prompt').classList.add('visible');
+  }, lastDelay + 1800);
+}
+
+/* ══════════════════════════════════════════
+   EMOJI PARTICLES — slower float
+══════════════════════════════════════════ */
+const EMOJIS = ['❤️','💖','✨','🎉','💕','🌸','💗','🥂','💝','🌹'];
+
+function launchParticles() {
+  const container = $('particles');
+  container.innerHTML = '';
+  for (let i = 0; i < 45; i++) {
+    setTimeout(() => {
+      const el = document.createElement('span');
+      el.className = 'particle';
+      el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      el.style.left = `${Math.random() * 95}vw`;
+      el.style.bottom = '-40px';
+      el.style.fontSize = `${1.2 + Math.random() * 1.5}rem`;
+      // slower float: was 3.5–6.5s → 5–9s
+      const dur = 5 + Math.random() * 4;
+      el.style.animationDuration = `${dur}s`;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), dur * 1000 + 200);
+    }, i * 150); // slightly more spread out (was 110ms)
+  }
+}
+
+/* ══════════════════════════════════════════
+   CONFETTI — slower fall
+══════════════════════════════════════════ */
+function launchConfetti() {
+  const canvas = $('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+  const COLS = ['#f4d4d4','#d4788a','#b55068','#e8e0f0','#c9a96e','#ffffff','#fcd4dc'];
+  const pieces = Array.from({ length: 130 }, () => ({
+    x: Math.random() * canvas.width, y: Math.random() * -canvas.height,
+    w: 6 + Math.random() * 8, h: 3 + Math.random() * 5,
+    color: COLS[Math.floor(Math.random() * COLS.length)],
+    speed: 1.2 + Math.random() * 1.8,   // slower: was 2.5–6
+    angle: Math.random() * 360,
+    spin:  (Math.random() - 0.5) * 2.5, // softer spin: was ±4
+    drift: (Math.random() - 0.5) * 1.0,
+  }));
+
+  let elapsed = 0;
+  (function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.save(); ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+      p.y += p.speed; p.x += p.drift; p.angle += p.spin;
+    });
+    // run longer to match slower fall: was 320 → 500 frames
+    if (++elapsed < 500) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  })();
+}
+
+/* ══════════════════════════════════════════
+   EMAIL (simulated)
+══════════════════════════════════════════ */
+function sendEmail(accepted) {
+  const subject = accepted ? "She said YES ❤️" : "She said NO";
+  const body    = accepted
+    ? "Victoria accepted your proposal to be your girlfriend."
+    : "Victoria declined.";
+  console.log("📧 Email — Subject:", subject, "| Body:", body);
+  // emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { subject, body });
+}
+
+window.addEventListener('resize', () => {
+  const c = $('confetti-canvas');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+});
+
+initPetals();
+</script>
+</body>
+</html>
